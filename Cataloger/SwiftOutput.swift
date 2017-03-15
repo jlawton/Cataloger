@@ -10,7 +10,7 @@ import Foundation
 
 func swiftCode(name: String, assetPaths: [String]) -> String {
     var output = ""
-    let className = "BundleClass_\(CodeGeneration.identifier(name, firstCap: true))"
+    let className = "BundleClass_\(CodeGeneration.identifier(name, options: [.initialCap]))"
 
     output.append("// Generated automatically with the contents of the asset catalog\n")
     output.append("\n")
@@ -36,12 +36,13 @@ func swiftCode(name: String, assetPaths: [String]) -> String {
 struct SwiftEumOptions: OptionSet {
     let rawValue: Int
     static let includeUIImageAccessor = SwiftEumOptions(rawValue: 1 << 0)
+    static let `public` = SwiftEumOptions(rawValue: 1 << 1)
 }
 
 func swiftEnum(name: String, assetPaths: [String], options: SwiftEumOptions = [], className: String) -> String {
     var output = ""
 
-    output.append("enum \(CodeGeneration.identifier(name, firstCap: true)): String {\n")
+    output.append("enum \(CodeGeneration.identifier(name, options: [.initialCap])): String {\n")
     output.append("\n")
 
     let groups = assetGroups(assetPaths)
@@ -50,7 +51,7 @@ func swiftEnum(name: String, assetPaths: [String], options: SwiftEumOptions = []
             output.append("    // \(group)\n")
         }
         for asset in groups[group]! {
-            output.append("    case \(CodeGeneration.identifier(asset)) = \(CodeGeneration.quoted(asset))\n")
+            output.append("    case \(CodeGeneration.identifier(asset, options: [.desnake])) = \(CodeGeneration.quoted(asset))\n")
         }
         output.append("\n")
     }
