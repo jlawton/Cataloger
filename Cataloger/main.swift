@@ -15,17 +15,16 @@ func main(_ arguments: [String]) {
         usage()
     }
 
-    let xcassets = URL(fileURLWithPath: arguments[0])
-
-    let assetPaths: [String]
+    let assets: [Asset]
     do {
-        assetPaths = try enumerateAssets(in: xcassets)
+        let xcassets = try XCAssets(catalogURL: URL(fileURLWithPath: arguments[0]))
+        assets = try xcassets.enumerateAssets()
     } catch {
         print("\(error)")
         return
     }
 
-    let swift = swiftCode(name: "Media", assetPaths: assetPaths)
+    let swift = swiftCode(name: "Media", assets: assets)
     print(swift)
 }
 

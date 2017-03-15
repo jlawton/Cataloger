@@ -8,7 +8,7 @@
 
 import Foundation
 
-func swiftCode(name: String, assetPaths: [String]) -> String {
+func swiftCode(name: String, assets: [Asset]) -> String {
     var output = ""
     let className = "BundleClass_\(CodeGeneration.identifier(name, options: [.initialCap]))"
 
@@ -22,8 +22,8 @@ func swiftCode(name: String, assetPaths: [String]) -> String {
     output.append("\n")
 
 
-    let imageAssetPaths = assetsOfType(.imageSet, assetPaths)
-    output.append(swiftEnum(name: name, assetPaths: imageAssetPaths, options: [.includeUIImageAccessor], className: className))
+    let imageAssets = assets.filter { $0.type == .Image }
+    output.append(swiftEnum(name: name, assets: imageAssets, options: [.includeUIImageAccessor], className: className))
 
     output.append("\n")
     output.append("// Class used to reference bundle for asset loading\n")
@@ -39,19 +39,19 @@ struct SwiftEumOptions: OptionSet {
     static let `public` = SwiftEumOptions(rawValue: 1 << 1)
 }
 
-func swiftEnum(name: String, assetPaths: [String], options: SwiftEumOptions = [], className: String) -> String {
+func swiftEnum(name: String, assets: [Asset], options: SwiftEumOptions = [], className: String) -> String {
     var output = ""
 
     output.append("enum \(CodeGeneration.identifier(name, options: [.initialCap])): String {\n")
     output.append("\n")
 
-    let groups = assetGroups(assetPaths)
+    let groups: [String: [Asset]] = assets.groupBy { $0.group }
     for group in groups.keys.sorted() {
         if !group.isEmpty {
             output.append("    // \(group)\n")
         }
         for asset in groups[group]! {
-            output.append("    case \(CodeGeneration.identifier(asset, options: [.desnake])) = \(CodeGeneration.quoted(asset))\n")
+            output.append("    case \(CodeGeneration.identifier(asset.name, options: [.desnake])) = \(CodeGeneration.quoted(asset.name))\n")
         }
         output.append("\n")
     }
