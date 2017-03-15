@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1A1008041E78FF5400461EAA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008031E78FF5400461EAA /* main.swift */; };
+		1A10080C1E7904BD00461EAA /* XCAssetReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080B1E7904BD00461EAA /* XCAssetReader.swift */; };
+		1A10080E1E791DB700461EAA /* SwiftOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080D1E791DB700461EAA /* SwiftOutput.swift */; };
+		1A1008101E7945A500461EAA /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080F1E7945A500461EAA /* CodeGeneration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		1A1008001E78FF5400461EAA /* Cataloger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cataloger; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A1008031E78FF5400461EAA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1A10080B1E7904BD00461EAA /* XCAssetReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssetReader.swift; sourceTree = "<group>"; };
+		1A10080D1E791DB700461EAA /* SwiftOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOutput.swift; sourceTree = "<group>"; };
+		1A10080F1E7945A500461EAA /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				1A1008031E78FF5400461EAA /* main.swift */,
+				1A10080B1E7904BD00461EAA /* XCAssetReader.swift */,
+				1A10080D1E791DB700461EAA /* SwiftOutput.swift */,
+				1A10080F1E7945A500461EAA /* CodeGeneration.swift */,
 			);
 			path = Cataloger;
 			sourceTree = "<group>";
@@ -121,6 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A10080C1E7904BD00461EAA /* XCAssetReader.swift in Sources */,
+				1A10080E1E791DB700461EAA /* SwiftOutput.swift in Sources */,
+				1A1008101E7945A500461EAA /* CodeGeneration.swift in Sources */,
 				1A1008041E78FF5400461EAA /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

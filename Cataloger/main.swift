@@ -8,5 +8,30 @@
 
 import Foundation
 
-print("Hello, World!")
+let executableName: String = (CommandLine.arguments[0] as NSString).lastPathComponent
 
+func main(_ arguments: [String]) {
+    guard arguments.count == 1 else {
+        usage()
+    }
+
+    let xcassets = URL(fileURLWithPath: arguments[0])
+
+    let assetPaths: [String]
+    do {
+        assetPaths = try enumerateAssets(in: xcassets)
+    } catch {
+        print("\(error)")
+        return
+    }
+
+    let swift = swiftCode(name: "Media", assetPaths: assetPaths)
+    print(swift)
+}
+
+func usage() -> Never {
+    print("Usage: \(executableName) <xcassets>")
+    exit(1)
+}
+
+main(Array(CommandLine.arguments.dropFirst(1)))
