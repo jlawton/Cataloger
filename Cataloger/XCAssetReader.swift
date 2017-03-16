@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct XCAssets: AssetReader {
+final class XCAssets: AssetReader {
     private enum AssetDataType: String {
 //        case appIconSet = ".appiconset"
 //        case cubeTextureSet = ".cubetextureset"
@@ -35,6 +35,8 @@ struct XCAssets: AssetReader {
     }
 
     let catalogURL: URL
+    private var namespaceCache: [String: Bool] = [:]
+
     init(catalogURL: URL) throws {
         try expectDirectory(url: catalogURL)
         self.catalogURL = catalogURL
@@ -82,8 +84,10 @@ struct XCAssets: AssetReader {
 
     private func asset(_ path: String) -> Asset? {
         let group = (path as NSString).deletingLastPathComponent
+        let ns = namespace(group: group)
         if let (name, type) = assetType(filename: (path as NSString).lastPathComponent) {
-            return Asset(group: group, name: name, path: name, type: type)
+            let fullname = (ns as NSString).appendingPathComponent(name)
+            return Asset(group: group, name: fullname, path: fullname, type: type)
         }
         return nil
     }
@@ -96,5 +100,41 @@ struct XCAssets: AssetReader {
             }
         }
         return nil
+    }
+
+    private func namespace(group: String) -> String {
+        // Base
+        if group == "" || group == "/" {
+            return group
+        }
+        // Recurse
+        var ns: String = namespace(group: (group as NSString).deletingLastPathComponent)
+
+        // Work
+        if isNamespace(group: group) {
+            ns = (ns as NSString).appendingPathComponent((group as NSString).lastPathComponent)
+        }
+
+        return ns
+    }
+
+    private func isNamespace(group: String) -> Bool {
+        if namespaceCache[group] == nil {
+            var isNamespace: Bool = false
+            let jsonURL = catalogURL.appendingPathComponent(group).appendingPathComponent("Contents.json")
+            if let data = try? Data(contentsOf: jsonURL) {
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    if let jsonDict = json as? [String: Any],
+                        let props = jsonDict["properties"] as? [String: Any],
+                        let isNS = props["provides-namespace"] as? Bool
+                    {
+                        isNamespace = isNS
+                    }
+                }
+            }
+            namespaceCache[group] = isNamespace
+        }
+
+        return namespaceCache[group] ?? false
     }
 }

@@ -18,6 +18,7 @@ internal enum CodeGeneration {
         fileprivate var whitespaceSet: CharacterSet {
             var ws: CharacterSet = CharacterSet.whitespacesAndNewlines
             ws.update(with: "-")
+            ws.update(with: "/")
             if self.contains(.desnake) {
                 ws.update(with: "_")
             }
