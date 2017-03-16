@@ -64,7 +64,8 @@ struct Framework: AssetReader {
     private func asset(_ path: String) -> Asset? {
         let group = (path as NSString).deletingLastPathComponent
         if let (name, type) = assetType(filename: (path as NSString).lastPathComponent) {
-            return Asset(group: group, name: name, path: name, type: type)
+            let fullname = (group as NSString).appendingPathComponent(name)
+            return Asset(group: group, name: fullname, path: fullname, type: type)
         }
         return nil
     }
