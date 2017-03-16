@@ -24,20 +24,21 @@ struct Asset {
     let type: AssetType
 }
 
+extension Asset: Hashable, Comparable {
+    var hashValue: Int {
+        return path.hashValue
+    }
+}
+
+func ==(_ a: Asset, _ b: Asset) -> Bool {
+    return a.path == b.path
+}
+func <(_ a: Asset, _ b: Asset) -> Bool {
+    return a.path < b.path
+}
+
 enum ReaderError: Error {
     case expectedFileURL(URL)
     case expectedDirectory(URL)
     case enumerationError(Error)
-}
-
-func expectDirectory(url: URL) throws -> Void {
-    if (!url.isFileURL) {
-        throw ReaderError.expectedFileURL(url)
-    }
-
-    let fs = FileManager.default
-    var isDir: ObjCBool = false
-    if (!fs.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue) {
-        throw ReaderError.expectedDirectory(url)
-    }
 }
