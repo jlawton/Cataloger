@@ -15,16 +15,16 @@ func main(_ arguments: [String]) {
         usage()
     }
 
-    let assets: [Asset]
+    let assets: Set<Asset>
     do {
-        let xcassets = try XCAssets(catalogURL: URL(fileURLWithPath: arguments[0]))
-        assets = try xcassets.enumerateAssets()
+        let catalogURL: URL = URL(fileURLWithPath: arguments[0])
+        assets = try readAssets(catalogURL: catalogURL)
     } catch {
         print("\(error)")
         return
     }
 
-    let swift = swiftCode(name: "Media", assets: assets)
+    let swift = swiftCode(name: "Media", assets: assets.sorted(by: Asset.compareCatalogGroups))
     print(swift)
 }
 

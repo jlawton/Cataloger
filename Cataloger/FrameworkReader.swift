@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Framework: AssetReader {
+struct FrameworkReader: AssetReader {
     enum FileType: String {
         case PNG = ".png"
         case JPG = ".jpg"
@@ -31,7 +31,7 @@ struct Framework: AssetReader {
         self.catalogURL = catalogURL
     }
 
-    func enumerateAssets() throws -> [Asset] {
+    func enumerateAssets() throws -> Set<Asset> {
         let fs = FileManager.default
         let paths: [String]
         do {
@@ -55,17 +55,14 @@ struct Framework: AssetReader {
         }
 
         // Deduplicate
-        return Set(assets).sorted { (a: Asset, b: Asset) -> Bool in
-            return (a.group < b.group)
-                || (a.group == b.group && a.name < b.name)
-        }
+        return Set(assets)
     }
 
     private func asset(_ path: String) -> Asset? {
         let group = (path as NSString).deletingLastPathComponent
         if let (name, type) = assetType(filename: (path as NSString).lastPathComponent) {
             let fullname = (group as NSString).appendingPathComponent(name)
-            return Asset(group: group, name: fullname, path: fullname, type: type)
+            return Asset(catalog: catalogURL, group: group, name: fullname, path: fullname, type: type)
         }
         return nil
     }

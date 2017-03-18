@@ -1,5 +1,5 @@
 //
-//  XCAssetReader.swift
+//  XCAssetsReader.swift
 //  Cataloger
 //
 //  Created by James Lawton on 3/14/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class XCAssets: AssetReader {
+final class XCAssetsReader: AssetReader {
     private enum AssetDataType: String {
 //        case appIconSet = ".appiconset"
 //        case cubeTextureSet = ".cubetextureset"
@@ -42,7 +42,7 @@ final class XCAssets: AssetReader {
         self.catalogURL = catalogURL
     }
 
-    func enumerateAssets() throws -> [Asset] {
+    func enumerateAssets() throws -> Set<Asset> {
         let paths: [String]
         do {
             paths = try FileManager.default.subpathsOfDirectory(atPath: catalogURL.path)
@@ -73,13 +73,10 @@ final class XCAssets: AssetReader {
             return assetPath
         }
 
-        // Strip duplicates
-        let assetPathSet = Set(assetPaths)
-
-        // Convert to assets
-        return assetPathSet.sorted().flatMap { (path: String) -> Asset? in
+        // Convert to assets and strip duplicates
+        return Set(assetPaths.flatMap { (path: String) -> Asset? in
             return asset(path)
-        }
+        })
     }
 
     private func asset(_ path: String) -> Asset? {
@@ -87,7 +84,7 @@ final class XCAssets: AssetReader {
         let ns = namespace(group: group)
         if let (name, type) = assetType(filename: (path as NSString).lastPathComponent) {
             let fullname = (ns as NSString).appendingPathComponent(name)
-            return Asset(group: group, name: fullname, path: fullname, type: type)
+            return Asset(catalog: catalogURL, group: group, name: fullname, path: fullname, type: type)
         }
         return nil
     }
