@@ -29,7 +29,10 @@ func main(_ arguments: [String]) {
 }
 
 func usage() -> Never {
-    print("Usage: \(executableName) <xcassets>")
+    print(
+        "Usage: \(executableName) <catalog> [<catalog> …]\n" +
+        "    where <catalog> is a .xcassets directory, .framework or .bundle"
+    )
     exit(1)
 }
 

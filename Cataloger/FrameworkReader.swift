@@ -26,9 +26,16 @@ struct FrameworkReader: AssetReader {
     }
 
     let catalogURL: URL
-    init(catalogURL: URL) throws {
+    let pathPrefix: String
+
+    init(catalogURL: URL, includeCatalogNameInPath: Bool = false) throws {
         try expectDirectory(url: catalogURL)
         self.catalogURL = catalogURL
+        if includeCatalogNameInPath {
+            pathPrefix = catalogURL.lastPathComponent + "/"
+        } else {
+            pathPrefix = ""
+        }
     }
 
     func enumerateAssets() throws -> Set<Asset> {
@@ -62,7 +69,8 @@ struct FrameworkReader: AssetReader {
         let group = (path as NSString).deletingLastPathComponent
         if let (name, type) = assetType(filename: (path as NSString).lastPathComponent) {
             let fullname = (group as NSString).appendingPathComponent(name)
-            return Asset(catalog: catalogURL, group: group, name: fullname, path: fullname, type: type)
+            let path = pathPrefix + fullname
+            return Asset(catalog: catalogURL, group: group, name: fullname, path: path, type: type)
         }
         return nil
     }

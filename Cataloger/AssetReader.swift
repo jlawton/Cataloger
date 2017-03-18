@@ -29,8 +29,11 @@ private func assetReader(catalogURL: URL) throws -> AssetReader {
     if name.hasSuffix(".xcassets") {
         return try XCAssetsReader(catalogURL: catalogURL)
     }
-    if name.hasSuffix(".framework") || name.hasSuffix(".bundle") {
+    if name.hasSuffix(".framework") {
         return try FrameworkReader(catalogURL: catalogURL)
+    }
+    if name.hasSuffix(".bundle") {
+        return try FrameworkReader(catalogURL: catalogURL, includeCatalogNameInPath: true)
     }
     throw ReaderError.unknownCatalogType(catalogURL)
 }
