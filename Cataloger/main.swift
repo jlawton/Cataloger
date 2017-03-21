@@ -15,16 +15,25 @@ func main(_ arguments: [String]) {
         usage()
     }
 
-    let assets: Set<Asset>
-    do {
-        let catalogURL: URL = URL(fileURLWithPath: arguments[0])
-        assets = try readAssets(catalogURL: catalogURL)
-    } catch {
-        print("\(error)")
-        return
+    var assets: Set<Asset> = Set()
+    for catalogPath in arguments {
+        do {
+            let catalogURL: URL = URL(fileURLWithPath: catalogPath)
+            let catalogAssets = try readAssets(catalogURL: catalogURL)
+            assets = try Asset.merge(assets, catalogAssets)
+        } catch {
+            print("\(error)")
+            return
+        }
     }
 
-    let swift = swiftCode(name: "Media", assets: assets.sorted(by: Asset.compareCatalogGroups))
+    let codeOptions = CodeOutputOptions(
+        assetNamespace: .closedEnum("Foo"),
+        imageBundle: .byClass("BundleClass", defineClassInOutput: false),
+        useQualifiedNames: true,
+        isPublic: false)
+
+    let swift = swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: codeOptions)
     print(swift)
 }
 
