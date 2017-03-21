@@ -8,7 +8,13 @@
 
 import Foundation
 
-func swiftCode(assets: [Asset], options: CodeOutputOptions) -> String {
+struct SwiftOutput: OutputGenerator {
+    static func output(assets: Set<Asset>, options: CodeOutputOptions) -> String {
+        return swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options)
+    }
+}
+
+private func swiftCode(assets: [Asset], options: CodeOutputOptions) -> String {
     var output = ""
 
     output.append("// Generated automatically with the contents of the asset catalog\n")

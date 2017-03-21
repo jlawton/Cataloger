@@ -17,6 +17,7 @@
 		1A1008101E7945A500461EAA /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080F1E7945A500461EAA /* CodeGeneration.swift */; };
 		1A1008121E7D0A0C00461EAA /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008111E7D0A0C00461EAA /* Asset.swift */; };
 		1A1008141E7F52FF00461EAA /* CommandLineOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */; };
+		1A1008191E80EE9500461EAA /* OutputGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008181E80EE9500461EAA /* OutputGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,7 @@
 		1A10080F1E7945A500461EAA /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
 		1A1008111E7D0A0C00461EAA /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineOptions.swift; sourceTree = "<group>"; };
+		1A1008181E80EE9500461EAA /* OutputGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,18 +77,51 @@
 		1A1008021E78FF5400461EAA /* Cataloger */ = {
 			isa = PBXGroup;
 			children = (
+				1A1008151E80EC3300461EAA /* Assets */,
+				1A1008161E80EC5C00461EAA /* Output */,
+				1A10081A1E8102CE00461EAA /* Command Line */,
+				1A1008171E80EE0A00461EAA /* Extensions */,
 				1A1008031E78FF5400461EAA /* main.swift */,
-				1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */,
+			);
+			path = Cataloger;
+			sourceTree = "<group>";
+		};
+		1A1008151E80EC3300461EAA /* Assets */ = {
+			isa = PBXGroup;
+			children = (
 				0DA38CE61E79DF4B005E6A30 /* AssetReader.swift */,
-				1A1008111E7D0A0C00461EAA /* Asset.swift */,
 				1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */,
 				0DA38CEA1E79EB1E005E6A30 /* FrameworkReader.swift */,
+				1A1008111E7D0A0C00461EAA /* Asset.swift */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		1A1008161E80EC5C00461EAA /* Output */ = {
+			isa = PBXGroup;
+			children = (
+				1A1008181E80EE9500461EAA /* OutputGenerator.swift */,
 				1A10080D1E791DB700461EAA /* SwiftOutput.swift */,
 				1A10080F1E7945A500461EAA /* CodeGeneration.swift */,
+			);
+			name = Output;
+			sourceTree = "<group>";
+		};
+		1A1008171E80EE0A00461EAA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
 				0DA38CE81E79E846005E6A30 /* Array+GroupBy.swift */,
 				0DFBD84A1E7A620900B0EC55 /* FileManager+Tests.swift */,
 			);
-			path = Cataloger;
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		1A10081A1E8102CE00461EAA /* Command Line */ = {
+			isa = PBXGroup;
+			children = (
+				1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */,
+			);
+			name = "Command Line";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +192,7 @@
 				1A1008141E7F52FF00461EAA /* CommandLineOptions.swift in Sources */,
 				0DA38CE91E79E846005E6A30 /* Array+GroupBy.swift in Sources */,
 				0DA38CEB1E79EB1E005E6A30 /* FrameworkReader.swift in Sources */,
+				1A1008191E80EE9500461EAA /* OutputGenerator.swift in Sources */,
 				1A1008041E78FF5400461EAA /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

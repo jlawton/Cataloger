@@ -33,7 +33,7 @@ func main(_ arguments: [String]) {
         useQualifiedNames: true,
         isPublic: false)
 
-    let swift = swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: codeOptions)
+    let swift = SwiftOutput.output(assets: assets, options: codeOptions)
     print(swift)
 }
 
