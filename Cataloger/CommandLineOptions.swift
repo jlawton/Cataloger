@@ -101,7 +101,7 @@ private extension AssetNamespace {
     static func evaluate(_ m: CommandMode) -> Result<AssetNamespace, CommandantError<NoError>> {
         return { $0.withName }
             <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\" or \"extension\". Default: enum")
-            <*> m <| Option(key: "name", defaultValue: "Assets", usage: "The name of the type in code. Default: Assets")
+            <*> m <| Option(key: "name", defaultValue: "Asset", usage: "The name of the type in code. Default: Asset")
     }
 
     struct AwaitingName: ArgumentProtocol {

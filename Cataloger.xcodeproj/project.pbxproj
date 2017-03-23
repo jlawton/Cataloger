@@ -23,6 +23,7 @@
 		1A021EDE1E839011005339E9 /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021ED01E838E1B005339E9 /* Switch.swift */; };
 		1A021EDF1E839014005339E9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021ED41E838E1B005339E9 /* Result.swift */; };
 		1A021EE01E839014005339E9 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021ED51E838E1B005339E9 /* ResultProtocol.swift */; };
+		1A021EE21E83A0BB005339E9 /* ObcOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021EE11E83A0BB005339E9 /* ObcOutput.swift */; };
 		1A1008041E78FF5400461EAA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008031E78FF5400461EAA /* main.swift */; };
 		1A10080C1E7904BD00461EAA /* XCAssetsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */; };
 		1A10080E1E791DB700461EAA /* SwiftOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080D1E791DB700461EAA /* SwiftOutput.swift */; };
@@ -61,6 +62,7 @@
 		1A021ED01E838E1B005339E9 /* Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switch.swift; sourceTree = "<group>"; };
 		1A021ED41E838E1B005339E9 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		1A021ED51E838E1B005339E9 /* ResultProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultProtocol.swift; sourceTree = "<group>"; };
+		1A021EE11E83A0BB005339E9 /* ObcOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObcOutput.swift; sourceTree = "<group>"; };
 		1A1008001E78FF5400461EAA /* Cataloger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cataloger; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A1008031E78FF5400461EAA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssetsReader.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				1A1008181E80EE9500461EAA /* OutputGenerator.swift */,
 				1A10080D1E791DB700461EAA /* SwiftOutput.swift */,
+				1A021EE11E83A0BB005339E9 /* ObcOutput.swift */,
 				1A10080F1E7945A500461EAA /* CodeGeneration.swift */,
 			);
 			name = Output;
@@ -217,6 +220,7 @@
 					1A1007FF1E78FF5400461EAA = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = F8MS72428L;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -250,6 +254,7 @@
 				1A1008121E7D0A0C00461EAA /* Asset.swift in Sources */,
 				1A10080E1E791DB700461EAA /* SwiftOutput.swift in Sources */,
 				1A021EDE1E839011005339E9 /* Switch.swift in Sources */,
+				1A021EE21E83A0BB005339E9 /* ObcOutput.swift in Sources */,
 				0DFBD84B1E7A620900B0EC55 /* FileManager+Tests.swift in Sources */,
 				1A1008101E7945A500461EAA /* CodeGeneration.swift in Sources */,
 				1A021ED91E839011005339E9 /* Command.swift in Sources */,
@@ -363,8 +368,11 @@
 		1A1008081E78FF5400461EAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = F8MS72428L;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -372,7 +380,9 @@
 		1A1008091E78FF5400461EAA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = F8MS72428L;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

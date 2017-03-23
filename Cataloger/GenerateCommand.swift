@@ -28,7 +28,7 @@ struct GenerateCommand: CommandProtocol {
         let code: String
         switch options.outputOptions.language {
         case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions)
-        case .objC: code = SwiftOutput.output(assets: assets, options: options.outputOptions)
+        case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions)
         }
 
         print(code)
