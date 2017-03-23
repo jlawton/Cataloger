@@ -8,41 +8,11 @@
 
 import Foundation
 
-let executableName: String = (CommandLine.arguments[0] as NSString).lastPathComponent
 
-func main(_ arguments: [String]) {
-    guard arguments.count == 1 else {
-        usage()
-    }
+let registry = CommandRegistry<NoError>()
+registry.register(GenerateCommand())
 
-    var assets: Set<Asset> = Set()
-    for catalogPath in arguments {
-        do {
-            let catalogURL: URL = URL(fileURLWithPath: catalogPath)
-            let catalogAssets = try readAssets(catalogURL: catalogURL)
-            assets = try Asset.merge(assets, catalogAssets)
-        } catch {
-            print("\(error)")
-            return
-        }
-    }
+let helpCommand = HelpCommand(registry: registry)
+registry.register(helpCommand)
 
-    let codeOptions = CodeOutputOptions(
-        assetNamespace: .closedEnum("Foo"),
-        imageBundle: .byClass("BundleClass", defineClassInOutput: false),
-        useQualifiedNames: true,
-        isPublic: false)
-
-    let swift = SwiftOutput.output(assets: assets, options: codeOptions)
-    print(swift)
-}
-
-func usage() -> Never {
-    print(
-        "Usage: \(executableName) <catalog> [<catalog> …]\n" +
-        "    where <catalog> is a .xcassets directory, .framework or .bundle"
-    )
-    exit(1)
-}
-
-main(Array(CommandLine.arguments.dropFirst(1)))
+registry.main(defaultVerb: helpCommand.verb) { _ in }
