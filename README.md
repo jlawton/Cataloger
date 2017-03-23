@@ -15,14 +15,31 @@ Usage
 Create a Swift file describing the assets in an asset catalog. Once a catalog has been compiled, it is opaque. Apple has not published the format of a `.car` and I'm not interested in figuring it out, since the source folder is a much simpler route to the same information.
 
 ```
-$ cataloger <path/to/Images.xcassets>
+$ cataloger generate <path/to/Images.xcassets>
 ```
 
 Create a Swift file describing the assets in a framework.
 
 ```
-$ cataloger <path/to/Framework.framework>
+$ cataloger generate <path/to/Framework.framework>
 ```
+
+Options
+-------
+
+There are a few command line options currently available. For example:
+
+```
+$ cataloger generate \
+    --name 'SomeFrameworkAsset' \
+    --type 'enum' \
+    --bundle-class 'SomeFrameworkClass' \
+    path/to/Images.xcassets
+```
+
+This would define a String-backed Swift enum, named `SomeFrameworkAsset`, with cases for the image assets found in `path/to/Images.xcassets`. It would also generate an image accessor, which looks up the assets in the in which the class `SomeFrameworkClass` is defined.
+
+See `cataloger help generate` for more details.
 
 Name Mangling
 -------------
