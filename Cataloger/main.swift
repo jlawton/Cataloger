@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum Cataloger {
+    static let executableName: String = URL(fileURLWithPath: CommandLine.arguments[0]).lastPathComponent
+    static let repository: String = "https://github.com/jlawton/Cataloger/"
+}
 
 let registry = CommandRegistry<CatalogerError>()
 registry.register(GenerateCommand())

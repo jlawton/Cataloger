@@ -32,6 +32,38 @@ struct CodeOutputOptions: OptionsProtocol {
                 isPublic: false)
         } }
     }
+
+    var effectiveCommandLineArguments: [String] {
+        var args: [String] = []
+
+        args.append("--lang")
+        switch language {
+        case .swift: args.append("swift")
+        case .objC: args.append("objc")
+        }
+
+        switch assetNamespace {
+        case .closedEnum(let name): args.append(contentsOf: ["--type", "enum", "--name", name])
+        case .extensibleEnum(let name): args.append(contentsOf: ["--type", "extensible", "--name", name])
+        case .extensibleEnumExtension(let name): args.append(contentsOf: ["--type", "extension", "--name", name])
+        }
+
+        if let bundle = imageBundle {
+            switch bundle {
+            case .byClass(let className, defineClassInOutput: let define):
+                args.append(contentsOf: ["--bundle-class", className])
+                if define {
+                    args.append(contentsOf: ["--define-class"])
+                }
+            case .byIdentifier(let identifier):
+                args.append(contentsOf: ["--bundle-id", identifier])
+            case .byPath(let path):
+                args.append(contentsOf: ["--bundle-path", path])
+            }
+        }
+
+        return args
+    }
 }
 
 enum Language: ArgumentProtocol {

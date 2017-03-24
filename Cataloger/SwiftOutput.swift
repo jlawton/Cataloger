@@ -9,15 +9,15 @@
 import Foundation
 
 struct SwiftOutput: OutputGenerator {
-    static func output(assets: Set<Asset>, options: CodeOutputOptions) -> String {
-        return swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options)
+    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> String {
+        return swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options, invocation: invocation)
     }
 }
 
-private func swiftCode(assets: [Asset], options: CodeOutputOptions) -> String {
+private func swiftCode(assets: [Asset], options: CodeOutputOptions, invocation: CatalogerInvocation) -> String {
     var output = ""
 
-    output.append("// Generated automatically with the contents of the asset catalog\n")
+    output.append(invocation.swiftHeader)
     output.append("\n")
     output.append("import Foundation\n")
     output.append("\n")

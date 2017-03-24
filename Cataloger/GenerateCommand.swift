@@ -18,10 +18,11 @@ struct GenerateCommand: CommandProtocol {
                 return try Asset.read(from: options.sources)
             }
             .map { (assets: Set<Asset>) in
+                let cmd = CatalogerInvocation(verb: verb, arguments: options.effectiveCommandLineArguments)
                 let code: String
                 switch options.outputOptions.language {
-                case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions)
-                case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions)
+                case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions, invocation: cmd)
+                case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions, invocation: cmd)
                 }
 
                 print(code)
@@ -43,5 +44,11 @@ struct GenerateOptions: OptionsProtocol {
         return { sources in
             GenerateOptions(outputOptions: outputOptions, sources: sources)
         }
+    }
+
+    var effectiveCommandLineArguments: [String] {
+        var args = outputOptions.effectiveCommandLineArguments
+        args.append(contentsOf: sources.map { CodeGeneration.quoted(URL(fileURLWithPath: $0).lastPathComponent) })
+        return args
     }
 }

@@ -33,6 +33,7 @@
 		1A1008121E7D0A0C00461EAA /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008111E7D0A0C00461EAA /* Asset.swift */; };
 		1A1008141E7F52FF00461EAA /* CommandLineOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */; };
 		1A1008191E80EE9500461EAA /* OutputGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008181E80EE9500461EAA /* OutputGenerator.swift */; };
+		1ACDB0B31E85072E00B9D4C0 /* CatalogerInvocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACDB0B21E85072E00B9D4C0 /* CatalogerInvocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -75,6 +76,7 @@
 		1A1008111E7D0A0C00461EAA /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineOptions.swift; sourceTree = "<group>"; };
 		1A1008181E80EE9500461EAA /* OutputGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputGenerator.swift; sourceTree = "<group>"; };
+		1ACDB0B21E85072E00B9D4C0 /* CatalogerInvocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogerInvocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				1A021EC11E837680005339E9 /* GenerateCommand.swift */,
 				1A021EE91E84D497005339E9 /* ListCommand.swift */,
 				1A021EED1E84DC15005339E9 /* CatalogerError.swift */,
+				1ACDB0B21E85072E00B9D4C0 /* CatalogerInvocation.swift */,
 			);
 			name = "Command Line";
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ACDB0B31E85072E00B9D4C0 /* CatalogerInvocation.swift in Sources */,
 				1A021ED61E839011005339E9 /* Argument.swift in Sources */,
 				1A021EDB1E839011005339E9 /* Extensions.swift in Sources */,
 				0DA38CE71E79DF4B005E6A30 /* AssetReader.swift in Sources */,

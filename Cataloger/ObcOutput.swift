@@ -9,17 +9,17 @@
 import Foundation
 
 struct ObjcOutput: OutputGenerator {
-    static func output(assets: Set<Asset>, options: CodeOutputOptions) -> String {
-        let (header, impl) = objcCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options)
+    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> String {
+        let (header, impl) = objcCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options, invocation: invocation)
         return "//--- HEADER\n\(header)\n//--- IMPL\n\(impl)"
     }
 }
 
-private func objcCode(assets: [Asset], options: CodeOutputOptions) -> (String, String) {
+private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: CatalogerInvocation) -> (String, String) {
     var header = ""
     var impl = ""
 
-    header.append("// Generated automatically with the contents of the asset catalog\n")
+    header.append(invocation.objcHeader)
     header.append("\n")
     header.append("@import Foundation;\n")
     header.append("\n")
@@ -35,6 +35,9 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions) -> (String, S
     let typeName = options.assetNamespace.name
 
     header.append(objcTypedef(assetNamespace: options.assetNamespace))
+
+    impl.append(invocation.objcHeader)
+    impl.append("\n")
     impl.append("#import \"\(typeName).h\"\n")
     impl.append("\n")
 
