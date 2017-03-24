@@ -9,11 +9,13 @@
 import Foundation
 
 
-let registry = CommandRegistry<NoError>()
+let registry = CommandRegistry<CatalogerError>()
 registry.register(GenerateCommand())
 registry.register(ListCommand())
 
 let helpCommand = HelpCommand(registry: registry)
 registry.register(helpCommand)
 
-registry.main(defaultVerb: helpCommand.verb) { _ in }
+registry.main(defaultVerb: helpCommand.verb) { (error: CatalogerError) in
+    fputs("\(error)\n", stderr)
+}

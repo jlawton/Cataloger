@@ -25,6 +25,7 @@
 		1A021EE01E839014005339E9 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021ED51E838E1B005339E9 /* ResultProtocol.swift */; };
 		1A021EE21E83A0BB005339E9 /* ObcOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021EE11E83A0BB005339E9 /* ObcOutput.swift */; };
 		1A021EEA1E84D497005339E9 /* ListCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021EE91E84D497005339E9 /* ListCommand.swift */; };
+		1A021EEE1E84DC15005339E9 /* CatalogerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A021EED1E84DC15005339E9 /* CatalogerError.swift */; };
 		1A1008041E78FF5400461EAA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008031E78FF5400461EAA /* main.swift */; };
 		1A10080C1E7904BD00461EAA /* XCAssetsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */; };
 		1A10080E1E791DB700461EAA /* SwiftOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10080D1E791DB700461EAA /* SwiftOutput.swift */; };
@@ -65,6 +66,7 @@
 		1A021ED51E838E1B005339E9 /* ResultProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultProtocol.swift; sourceTree = "<group>"; };
 		1A021EE11E83A0BB005339E9 /* ObcOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObcOutput.swift; sourceTree = "<group>"; };
 		1A021EE91E84D497005339E9 /* ListCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCommand.swift; sourceTree = "<group>"; };
+		1A021EED1E84DC15005339E9 /* CatalogerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogerError.swift; sourceTree = "<group>"; };
 		1A1008001E78FF5400461EAA /* Cataloger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cataloger; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A1008031E78FF5400461EAA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssetsReader.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */,
 				1A021EC11E837680005339E9 /* GenerateCommand.swift */,
 				1A021EE91E84D497005339E9 /* ListCommand.swift */,
+				1A021EED1E84DC15005339E9 /* CatalogerError.swift */,
 			);
 			name = "Command Line";
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				1A021EDD1E839011005339E9 /* Option.swift in Sources */,
 				1A021ED71E839011005339E9 /* ArgumentParser.swift in Sources */,
 				0DA38CE91E79E846005E6A30 /* Array+GroupBy.swift in Sources */,
+				1A021EEE1E84DC15005339E9 /* CatalogerError.swift in Sources */,
 				0DA38CEB1E79EB1E005E6A30 /* FrameworkReader.swift in Sources */,
 				1A021EDA1E839011005339E9 /* Errors.swift in Sources */,
 				1A1008191E80EE9500461EAA /* OutputGenerator.swift in Sources */,

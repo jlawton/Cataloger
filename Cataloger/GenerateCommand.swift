@@ -12,24 +12,20 @@ struct GenerateCommand: CommandProtocol {
     let verb: String = "generate"
     let function: String = "Output code constants for an asset catalog"
 
-    func run(_ options: GenerateOptions) -> Result<(), NoError> {
-        var assets: Set<Asset>
-        do {
-            assets = try Asset.read(from: options.sources)
-        } catch {
-            fputs("\(error)\n", stderr)
-            return .success(())
-        }
+    func run(_ options: GenerateOptions) -> Result<(), CatalogerError> {
+        return Result(())
+            .tryMap { _ in
+                return try Asset.read(from: options.sources)
+            }
+            .map { (assets: Set<Asset>) in
+                let code: String
+                switch options.outputOptions.language {
+                case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions)
+                case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions)
+                }
 
-        let code: String
-        switch options.outputOptions.language {
-        case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions)
-        case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions)
-        }
-
-        print(code)
-
-        return .success(())
+                print(code)
+            }
     }
 }
 
@@ -37,7 +33,7 @@ struct GenerateOptions: OptionsProtocol {
     let outputOptions: CodeOutputOptions
     let sources: [String]
 
-    static func evaluate(_ m: CommandMode) -> Result<GenerateOptions, CommandantError<NoError>> {
+    static func evaluate(_ m: CommandMode) -> Result<GenerateOptions, CommandantError<CatalogerError>> {
         return create
             <*> CodeOutputOptions.evaluate(m)
             <*> m <| Argument<[String]>(defaultValue: nil, usage: "Asset catalogs")

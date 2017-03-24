@@ -47,7 +47,7 @@ final class XCAssetsReader: AssetReader {
         do {
             paths = try FileManager.default.subpathsOfDirectory(atPath: catalogURL.path)
         } catch {
-            throw ReaderError.enumerationError(error)
+            throw ReaderError.enumerationError(catalogURL, error)
         }
 
         // Strip paths short at the first qualifying name

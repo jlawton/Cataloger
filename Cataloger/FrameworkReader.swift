@@ -44,7 +44,7 @@ struct FrameworkReader: AssetReader {
         do {
             paths = try fs.subpathsOfDirectory(atPath: catalogURL.path)
         } catch {
-            throw ReaderError.enumerationError(error)
+            throw ReaderError.enumerationError(catalogURL, error)
         }
 
         // Filter out nested bundles and other miscellany

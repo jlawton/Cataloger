@@ -39,14 +39,15 @@ func <(_ a: Asset, _ b: Asset) -> Bool {
 
 extension Asset {
     enum MergeError: Error {
-        case duplicatePaths([String])
+        case duplicatePaths([Asset])
     }
 
     static func merge(_ a: Set<Asset>, _ b: Set<Asset>) throws -> Set<Asset> {
         let dupes = a.intersection(b)
         if !dupes.isEmpty {
-            let paths = dupes.map({ $0.path }).sorted()
-            throw MergeError.duplicatePaths(paths)
+            let fromA = a.filter { dupes.contains($0) }
+            let fromB = a.filter { dupes.contains($0) }
+            throw MergeError.duplicatePaths((fromA + fromB).sorted())
         }
         return a.union(b)
     }

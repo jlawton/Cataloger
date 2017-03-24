@@ -16,7 +16,7 @@ enum ReaderError: Error {
     case unknownCatalogType(URL)
     case expectedFileURL(URL)
     case expectedDirectory(URL)
-    case enumerationError(Error)
+    case enumerationError(URL, Error)
 }
 
 func readAssets(catalogURL: URL) throws -> Set<Asset> {

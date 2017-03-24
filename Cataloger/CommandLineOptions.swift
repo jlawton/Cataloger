@@ -15,7 +15,7 @@ struct CodeOutputOptions: OptionsProtocol {
     let useQualifiedNames: Bool
     let isPublic: Bool
 
-    static func evaluate(_ m: CommandMode) -> Result<CodeOutputOptions, CommandantError<NoError>> {
+    static func evaluate(_ m: CommandMode) -> Result<CodeOutputOptions, CommandantError<CatalogerError>> {
         return create
             <*> m <| Option(key: "lang", defaultValue: Language.swift, usage: "The language to output. Can be \"swift\" or \"objc\". Default: swift")
             <*> AssetNamespace.evaluate(m)
@@ -73,7 +73,7 @@ enum AssetNamespace {
 }
 
 private extension BundleIdentification {
-    static func evaluate(_ m: CommandMode) -> Result<BundleIdentification?, CommandantError<NoError>> {
+    static func evaluate(_ m: CommandMode) -> Result<BundleIdentification?, CommandantError<CatalogerError>> {
         return create
             <*> m <| Option(key: "bundle-class", defaultValue: nil, usage: "The name of the class used to find the asset bundle. Default: none")
             <*> m <| Option(key: "bundle-path", defaultValue: nil, usage: "The path used to find the asset bundle in the output code. Default: none")
@@ -98,7 +98,7 @@ private extension BundleIdentification {
 }
 
 private extension AssetNamespace {
-    static func evaluate(_ m: CommandMode) -> Result<AssetNamespace, CommandantError<NoError>> {
+    static func evaluate(_ m: CommandMode) -> Result<AssetNamespace, CommandantError<CatalogerError>> {
         return { $0.withName }
             <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\" or \"extension\". Default: enum")
             <*> m <| Option(key: "name", defaultValue: "Asset", usage: "The name of the type in code. Default: Asset")
