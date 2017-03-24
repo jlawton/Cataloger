@@ -18,4 +18,5 @@ registry.register(helpCommand)
 
 registry.main(defaultVerb: helpCommand.verb) { (error: CatalogerError) in
     fputs("\(error)\n", stderr)
+    exit(EXIT_FAILURE)
 }
