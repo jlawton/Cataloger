@@ -57,4 +57,14 @@ extension Asset {
     static func compareCatalogGroups(_ a: Asset, _ b: Asset) -> Bool {
         return (a.catalog.path, a.group, a.name) < (b.catalog.path, b.group, b.name)
     }
+
+    static  func read(from sources: [String]) throws -> Set<Asset> {
+        var assets: Set<Asset> = Set()
+        for catalogPath in sources {
+            let catalogURL: URL = URL(fileURLWithPath: catalogPath)
+            let catalogAssets = try readAssets(catalogURL: catalogURL)
+            assets = try Asset.merge(assets, catalogAssets)
+        }
+        return assets
+    }
 }

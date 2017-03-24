@@ -11,6 +11,7 @@ import Foundation
 
 let registry = CommandRegistry<NoError>()
 registry.register(GenerateCommand())
+registry.register(ListCommand())
 
 let helpCommand = HelpCommand(registry: registry)
 registry.register(helpCommand)

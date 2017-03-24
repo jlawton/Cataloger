@@ -13,16 +13,12 @@ struct GenerateCommand: CommandProtocol {
     let function: String = "Output code constants for an asset catalog"
 
     func run(_ options: GenerateOptions) -> Result<(), NoError> {
-        var assets: Set<Asset> = Set()
-        for catalogPath in options.sources {
-            do {
-                let catalogURL: URL = URL(fileURLWithPath: catalogPath)
-                let catalogAssets = try readAssets(catalogURL: catalogURL)
-                assets = try Asset.merge(assets, catalogAssets)
-            } catch {
-                print("\(error)")
-                return .success(())
-            }
+        var assets: Set<Asset>
+        do {
+            assets = try Asset.read(from: options.sources)
+        } catch {
+            fputs("\(error)\n", stderr)
+            return .success(())
         }
 
         let code: String
