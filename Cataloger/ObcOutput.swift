@@ -65,9 +65,13 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: C
         }
 
         let accessor = objcUIImageAccessor(typeName: typeName, bundle: bundle)
+        header.append("#if TARGET_OS_IPHONE\n")
         header.append(accessor.0)
+        header.append("#endif\n")
         header.append("\n")
+        impl.append("#if TARGET_OS_IPHONE\n")
         impl.append(accessor.1)
+        impl.append("#endif\n")
         impl.append("\n")
 
         if bundleClass != nil {
