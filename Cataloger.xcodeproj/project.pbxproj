@@ -69,7 +69,7 @@
 		1A021EE11E83A0BB005339E9 /* ObcOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObcOutput.swift; sourceTree = "<group>"; };
 		1A021EE91E84D497005339E9 /* ListCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCommand.swift; sourceTree = "<group>"; };
 		1A021EED1E84DC15005339E9 /* CatalogerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogerError.swift; sourceTree = "<group>"; };
-		1A1008001E78FF5400461EAA /* Cataloger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cataloger; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A1008001E78FF5400461EAA /* cataloger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cataloger; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A1008031E78FF5400461EAA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1A10080B1E7904BD00461EAA /* XCAssetsReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCAssetsReader.swift; sourceTree = "<group>"; };
 		1A10080D1E791DB700461EAA /* SwiftOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOutput.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 		1A1008011E78FF5400461EAA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A1008001E78FF5400461EAA /* Cataloger */,
+				1A1008001E78FF5400461EAA /* cataloger */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,9 +202,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A1007FF1E78FF5400461EAA /* Cataloger */ = {
+		1A1007FF1E78FF5400461EAA /* cataloger */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A1008071E78FF5400461EAA /* Build configuration list for PBXNativeTarget "Cataloger" */;
+			buildConfigurationList = 1A1008071E78FF5400461EAA /* Build configuration list for PBXNativeTarget "cataloger" */;
 			buildPhases = (
 				1A1007FC1E78FF5400461EAA /* Sources */,
 				1A1007FD1E78FF5400461EAA /* Frameworks */,
@@ -214,9 +214,9 @@
 			);
 			dependencies = (
 			);
-			name = Cataloger;
+			name = cataloger;
 			productName = Cataloger;
-			productReference = 1A1008001E78FF5400461EAA /* Cataloger */;
+			productReference = 1A1008001E78FF5400461EAA /* cataloger */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -249,7 +249,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A1007FF1E78FF5400461EAA /* Cataloger */,
+				1A1007FF1E78FF5400461EAA /* cataloger */,
 			);
 		};
 /* End PBXProject section */
@@ -414,7 +414,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A1008071E78FF5400461EAA /* Build configuration list for PBXNativeTarget "Cataloger" */ = {
+		1A1008071E78FF5400461EAA /* Build configuration list for PBXNativeTarget "cataloger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A1008081E78FF5400461EAA /* Debug */,
