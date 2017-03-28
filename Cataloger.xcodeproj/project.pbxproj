@@ -34,6 +34,7 @@
 		1A1008141E7F52FF00461EAA /* CommandLineOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */; };
 		1A1008191E80EE9500461EAA /* OutputGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1008181E80EE9500461EAA /* OutputGenerator.swift */; };
 		1ACDB0B31E85072E00B9D4C0 /* CatalogerInvocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACDB0B21E85072E00B9D4C0 /* CatalogerInvocation.swift */; };
+		1ACDB0B51E8A391300B9D4C0 /* URL+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACDB0B41E8A391300B9D4C0 /* URL+Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,7 @@
 		1A1008131E7F52FF00461EAA /* CommandLineOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandLineOptions.swift; sourceTree = "<group>"; };
 		1A1008181E80EE9500461EAA /* OutputGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputGenerator.swift; sourceTree = "<group>"; };
 		1ACDB0B21E85072E00B9D4C0 /* CatalogerInvocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogerInvocation.swift; sourceTree = "<group>"; };
+		1ACDB0B41E8A391300B9D4C0 /* URL+Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Tests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			children = (
 				0DA38CE81E79E846005E6A30 /* Array+GroupBy.swift */,
 				0DFBD84A1E7A620900B0EC55 /* FileManager+Tests.swift */,
+				1ACDB0B41E8A391300B9D4C0 /* URL+Tests.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				1ACDB0B31E85072E00B9D4C0 /* CatalogerInvocation.swift in Sources */,
 				1A021ED61E839011005339E9 /* Argument.swift in Sources */,
 				1A021EDB1E839011005339E9 /* Extensions.swift in Sources */,
+				1ACDB0B51E8A391300B9D4C0 /* URL+Tests.swift in Sources */,
 				0DA38CE71E79DF4B005E6A30 /* AssetReader.swift in Sources */,
 				1A10080C1E7904BD00461EAA /* XCAssetsReader.swift in Sources */,
 				1A1008121E7D0A0C00461EAA /* Asset.swift in Sources */,

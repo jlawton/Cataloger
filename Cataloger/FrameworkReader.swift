@@ -42,7 +42,7 @@ struct FrameworkReader: AssetReader {
         let fs = FileManager.default
         let paths: [String]
         do {
-            paths = try fs.subpathsOfDirectory(atPath: catalogURL.path)
+            paths = try fs.subpathsOfDirectory(atPath: resourcesURL.path)
         } catch {
             throw ReaderError.enumerationError(catalogURL, error)
         }
@@ -98,5 +98,17 @@ struct FrameworkReader: AssetReader {
             }
         }
         return name
+    }
+
+    private var resourcesURL: URL {
+        // MacOS frameworks include a Resources symlink, iOS frameworks are flat
+        var resourcesURL = catalogURL.appendingPathComponent("Resources")
+        if resourcesURL.isSymlink {
+            resourcesURL = resourcesURL.resolvingSymlinksInPath()
+            if resourcesURL.isDirectory {
+                return resourcesURL
+            }
+        }
+        return catalogURL
     }
 }

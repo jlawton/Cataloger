@@ -23,10 +23,7 @@ func expectDirectory(url: URL) throws -> Void {
     if (!url.isFileURL) {
         throw ReaderError.expectedFileURL(url)
     }
-
-    let fs = FileManager.default
-    var isDir: ObjCBool = false
-    if (!fs.fileExists(atPath: url.path, isDirectory: &isDir) || !isDir.boolValue) {
+    if (!url.isDirectory) {
         throw ReaderError.expectedDirectory(url)
     }
 }
