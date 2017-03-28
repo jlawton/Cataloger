@@ -17,7 +17,7 @@ struct CodeOutputOptions: OptionsProtocol {
 
     static func evaluate(_ m: CommandMode) -> Result<CodeOutputOptions, CommandantError<CatalogerError>> {
         return create
-            <*> m <| Option(key: "lang", defaultValue: Language.swift, usage: "The language to output. Can be \"swift\" or \"objc\". Default: swift")
+            <*> m <| Option(key: "lang", defaultValue: Language.swift, usage: "The language to output. Can only be \"swift\" for now. Default: swift")
             <*> AssetNamespace.evaluate(m)
             <*> BundleIdentification.evaluate(m)
     }
@@ -76,9 +76,9 @@ enum Language: ArgumentProtocol {
     static func from(string: String) -> Language? {
         switch string.lowercased() {
         case "swift": return .swift
-        case "objc": fallthrough
-        case "objectivec": fallthrough
-        case "objective-c": return .objC
+//        case "objc": fallthrough
+//        case "objectivec": fallthrough
+//        case "objective-c": return .objC
         default: return nil
         }
     }
