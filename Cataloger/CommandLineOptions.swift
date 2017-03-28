@@ -20,17 +20,18 @@ struct CodeOutputOptions: OptionsProtocol {
             <*> m <| Option(key: "lang", defaultValue: Language.swift, usage: "The language to output. Can only be \"swift\" for now. Default: swift")
             <*> AssetNamespace.evaluate(m)
             <*> BundleIdentification.evaluate(m)
+            <*> m <| Switch(key: "public", usage: "Generate code for public assets")
     }
 
-    private static func create(lang: Language) -> (AssetNamespace) -> (BundleIdentification?) -> CodeOutputOptions {
-        return { ns in { bundle in
+    private static func create(lang: Language) -> (AssetNamespace) -> (BundleIdentification?) -> (Bool) -> CodeOutputOptions {
+        return { ns in { bundle in { isPublic in
             return CodeOutputOptions(
                 language: lang,
                 assetNamespace: ns,
                 imageBundle: bundle,
                 useQualifiedNames: false,
-                isPublic: false)
-        } }
+                isPublic: isPublic)
+        } } }
     }
 
     var effectiveCommandLineArguments: [String] {
