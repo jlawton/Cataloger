@@ -16,6 +16,11 @@ struct ObjcOutput: OutputGenerator {
 }
 
 private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: CatalogerInvocation) -> (String, String) {
+
+    if case .classProperties = options.assetNamespace {
+        return objcClass(assets: assets, options: options, invocation: invocation)
+    }
+
     var header = ""
     var impl = ""
 
@@ -83,6 +88,60 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: C
     return (header, impl)
 }
 
+private func objcClass(assets: [Asset], options: CodeOutputOptions, invocation: CatalogerInvocation) -> (String, String) {
+    var header = ""
+    var impl = ""
+
+    let typeName = options.assetNamespace.name
+
+    header.append(invocation.objcHeader)
+    header.append("\n")
+    header.append("@import UIKit;\n")
+    header.append("\n")
+    header.append("NS_ASSUME_NONNULL_BEGIN\n")
+    header.append("\n")
+    header.append("@interface \(typeName): NSObject\n")
+    header.append("\n")
+
+    impl.append(invocation.objcHeader)
+    impl.append("\n")
+    impl.append("#import \"\(typeName).h\"\n")
+    impl.append("\n")
+    impl.append("NS_ASSUME_NONNULL_BEGIN\n")
+    impl.append("\n")
+    impl.append("@implementation \(typeName)\n")
+    impl.append("\n")
+
+    let bundle = options.imageBundle ?? .byClass(typeName, defineClassInOutput: false)
+
+    let groups: [String: [Asset]] = assets.groupBy { $0.group }
+    for group in groups.keys.sorted() {
+        if !group.isEmpty {
+            header.append("#pragma mark - \(group)\n\n")
+            impl.append("#pragma mark - \(group)\n\n")
+        }
+        for asset in groups[group]! {
+            let assetName = CodeGeneration.identifier(asset.name, options: [.desnake])
+            let (h, i) = objcStaticProperty(name: assetName, path: asset.path, type: asset.type, bundle: bundle)
+            header.append(h)
+            impl.append(i)
+            impl.append("\n")
+        }
+        header.append("\n")
+        impl.append("\n")
+    }
+
+    header.append("@end\n")
+    header.append("\n")
+    header.append("NS_ASSUME_NONNULL_END\n")
+
+    impl.append("@end\n")
+    impl.append("\n")
+    impl.append("NS_ASSUME_NONNULL_END\n")
+
+    return (header, impl)
+}
+
 private func objcTypedef(assetNamespace: AssetNamespace) -> String {
     switch assetNamespace {
     case .closedEnum(let name): return "typedef NSString * \(name) NS_STRING_ENUM;\n"
@@ -90,6 +149,42 @@ private func objcTypedef(assetNamespace: AssetNamespace) -> String {
     case .extensibleEnumExtension: return "";
     case .classProperties: return "";
     }
+}
+
+private func objcStaticProperty(name: String, path: String, type: Asset.AssetType, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
+    let bundleCode = bundle.objcOutput
+    let nullable = returnOptional ? "nullable " : ""
+    let quotedPath = CodeGeneration.quoted(path)
+
+    let returnType: String
+    let loadAsset: String
+    switch type {
+    case .Image:
+        returnType = "UIImage *"
+        loadAsset = "[UIImage imageNamed:@\(quotedPath) inBundle:bundle compatibleWithTraitCollection:nil]"
+    case .DataAsset:
+        returnType = "NSDataAsset *"
+        loadAsset = "[[NSDataAsset alloc] initWithName:@\(quotedPath) bundle:bundle]"
+    }
+
+    let header = "+ (\(nullable)\(returnType))\(name);\n"
+
+    var impl = ""
+    impl.append(    "+ (\(nullable)\(returnType))\(name)\n")
+    impl.append(    "{\n")
+    impl.append(    "    \(returnType)asset = nil;\n")
+    impl.append(    "    NSBundle *bundle = \(bundleCode);\n")
+    impl.append(    "    if (bundle) {\n")
+    impl.append(    "        asset = \(loadAsset);\n")
+    impl.append(    "    }\n")
+    impl.append(    "\n")
+    if !returnOptional {
+        impl.append("    NSAssert(asset != nil, @\"Unable to find asset at path %@\", @\(quotedPath));\n")
+    }
+    impl.append(    "    return asset;\n")
+    impl.append(    "}\n")
+
+    return (header, impl)
 }
 
 private func objcUIImageAccessor(typeName: String, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
@@ -112,7 +207,7 @@ private func objcUIImageAccessor(typeName: String, bundle: BundleIdentification,
     impl.append(    "    }\n")
     impl.append(    "\n")
     if !returnOptional {
-        impl.append("    NSCAssert(image != nil, @\"Unable to find image for asset %@\", asset);\n")
+        impl.append("    NSAssert(image != nil, @\"Unable to find image for asset %@\", asset);\n")
     }
     impl.append(    "    return image;\n")
     impl.append(    "}\n")
