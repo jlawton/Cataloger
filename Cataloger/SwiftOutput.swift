@@ -151,12 +151,12 @@ private func swiftClass(assets: [Asset], options: CodeOutputOptions) -> String {
     let public_ = options.isPublic ? "public " : ""
 
     output.append("\(public_)final class \(className) {\n")
-    output.append("\n")
 
     let bundle = options.imageBundle ?? .byClass(className, defineClassInOutput: false)
 
     let groups: [String: [Asset]] = assets.groupBy { $0.group }
     for group in groups.keys.sorted() {
+        output.append("\n")
         if !group.isEmpty {
             output.append("    // MARK: - \(group)\n")
             output.append("\n")
@@ -167,7 +167,6 @@ private func swiftClass(assets: [Asset], options: CodeOutputOptions) -> String {
             output.append(swiftAssetProperty(name: assetName, path: assetPath, type: asset.type, bundle: bundle, isStatic: true, isPublic: options.isPublic))
             output.append("\n")
         }
-        output.append("\n")
     }
 
     output.append("}\n")
