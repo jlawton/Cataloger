@@ -9,7 +9,7 @@
 import Foundation
 
 struct Asset {
-    enum AssetType {
+    enum AssetType: Int, Comparable {
         case Image
         case DataAsset
     }
@@ -35,6 +35,10 @@ func ==(_ a: Asset, _ b: Asset) -> Bool {
 }
 func <(_ a: Asset, _ b: Asset) -> Bool {
     return a.path < b.path
+}
+
+func <(_ a: Asset.AssetType, _ b: Asset.AssetType) -> Bool {
+    return a.rawValue < b.rawValue
 }
 
 extension Asset {

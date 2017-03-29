@@ -114,6 +114,8 @@ private func objcClass(assets: [Asset], options: CodeOutputOptions, invocation: 
 
     let bundle = options.imageBundle ?? .byClass(typeName, defineClassInOutput: false)
 
+    var loaders: [Asset.AssetType: (String, String)] = [:]
+
     let groups: [String: [Asset]] = assets.groupBy { $0.group }
     for group in groups.keys.sorted() {
         if !group.isEmpty {
@@ -122,12 +124,20 @@ private func objcClass(assets: [Asset], options: CodeOutputOptions, invocation: 
         }
         for asset in groups[group]! {
             let assetName = CodeGeneration.identifier(asset.name, options: [.desnake])
-            let (h, i) = objcStaticProperty(name: assetName, path: asset.path, type: asset.type, bundle: bundle)
+            let loader = loaders[asset.type] ?? objcStaticLoader(type: asset.type, bundle: bundle)
+            loaders[asset.type] = loader
+            let (h, i) = objcStaticProperty(name: assetName, path: asset.path, loaderMethod: loader.0, type: asset.type, bundle: bundle)
             header.append(h)
             impl.append(i)
             impl.append("\n")
         }
         header.append("\n")
+        impl.append("\n")
+    }
+
+    for assetType in loaders.keys.sorted() {
+        let loader = loaders[assetType]!.1
+        impl.append(loader)
         impl.append("\n")
     }
 
@@ -151,26 +161,44 @@ private func objcTypedef(assetNamespace: AssetNamespace) -> String {
     }
 }
 
-private func objcStaticProperty(name: String, path: String, type: Asset.AssetType, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
-    let bundleCode = bundle.objcOutput
+private func objcStaticProperty(name: String, path: String, loaderMethod: String, type: Asset.AssetType, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
     let nullable = returnOptional ? "nullable " : ""
-    let quotedPath = CodeGeneration.quoted(path)
-
     let returnType: String
-    let loadAsset: String
     switch type {
-    case .Image:
-        returnType = "UIImage *"
-        loadAsset = "[UIImage imageNamed:@\(quotedPath) inBundle:bundle compatibleWithTraitCollection:nil]"
-    case .DataAsset:
-        returnType = "NSDataAsset *"
-        loadAsset = "[[NSDataAsset alloc] initWithName:@\(quotedPath) bundle:bundle]"
+    case .Image: returnType = "UIImage *"
+    case .DataAsset: returnType = "NSDataAsset *"
     }
 
     let header = "+ (\(nullable)\(returnType))\(name);\n"
 
     var impl = ""
-    impl.append(    "+ (\(nullable)\(returnType))\(name)\n")
+    impl.append("+ (\(nullable)\(returnType))\(name) {\n")
+    impl.append("    return [self \(loaderMethod)@\(CodeGeneration.quoted(path))];\n")
+    impl.append("}\n")
+
+    return (header, impl)
+}
+
+private func objcStaticLoader(type: Asset.AssetType, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
+    let bundleCode = bundle.objcOutput
+    let nullable = returnOptional ? "nullable " : ""
+
+    let returnType: String
+    let loadAsset: String
+    let methodName: String
+    switch type {
+    case .Image:
+        returnType = "UIImage *"
+        loadAsset = "[UIImage imageNamed:path inBundle:bundle compatibleWithTraitCollection:nil]"
+        methodName = "imageWithPath:"
+    case .DataAsset:
+        returnType = "NSDataAsset *"
+        loadAsset = "[[NSDataAsset alloc] initWithName:path bundle:bundle]"
+        methodName = "dataAssetWithPath:"
+    }
+
+    var impl = ""
+    impl.append(    "+ (\(nullable)\(returnType))\(methodName)(NSString *)path\n")
     impl.append(    "{\n")
     impl.append(    "    \(returnType)asset = nil;\n")
     impl.append(    "    NSBundle *bundle = \(bundleCode);\n")
@@ -179,12 +207,12 @@ private func objcStaticProperty(name: String, path: String, type: Asset.AssetTyp
     impl.append(    "    }\n")
     impl.append(    "\n")
     if !returnOptional {
-        impl.append("    NSAssert(asset != nil, @\"Unable to find asset at path %@\", @\(quotedPath));\n")
+        impl.append("    NSAssert(asset != nil, @\"Unable to find asset at path %@\", path);\n")
     }
     impl.append(    "    return asset;\n")
     impl.append(    "}\n")
 
-    return (header, impl)
+    return (methodName, impl)
 }
 
 private func objcUIImageAccessor(typeName: String, bundle: BundleIdentification, returnOptional: Bool = false) -> (String, String) {
