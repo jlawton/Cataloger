@@ -9,9 +9,14 @@
 import Foundation
 
 struct ObjcOutput: OutputGenerator {
-    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> String {
+    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> [String: String] {
+        let hFile = options.assetNamespace.name + ".h"
+        let mFile = options.assetNamespace.name + ".m"
         let (header, impl) = objcCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options, invocation: invocation)
-        return "//--- HEADER\n\(header)\n//--- IMPL\n\(impl)"
+        return [
+            hFile: header,
+            mFile: impl,
+        ]
     }
 }
 

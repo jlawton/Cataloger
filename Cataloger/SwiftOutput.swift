@@ -9,8 +9,10 @@
 import Foundation
 
 struct SwiftOutput: OutputGenerator {
-    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> String {
-        return swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options, invocation: invocation)
+    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> [String: String] {
+        let file = options.assetNamespace.name + ".swift"
+        let contents = swiftCode(assets: assets.sorted(by: Asset.compareCatalogGroups), options: options, invocation: invocation)
+        return [file: contents]
     }
 }
 

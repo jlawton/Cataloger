@@ -9,7 +9,7 @@
 import Foundation
 
 protocol OutputGenerator {
-    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> String
+    static func output(assets: Set<Asset>, options: CodeOutputOptions, invocation: CatalogerInvocation) -> [String: String]
 }
 
 

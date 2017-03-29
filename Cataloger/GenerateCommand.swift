@@ -19,13 +19,16 @@ struct GenerateCommand: CommandProtocol {
             }
             .map { (assets: Set<Asset>) in
                 let cmd = CatalogerInvocation(verb: verb, arguments: options.effectiveCommandLineArguments)
-                let code: String
+                let code: [String: String]
                 switch options.outputOptions.language {
                 case .swift: code = SwiftOutput.output(assets: assets, options: options.outputOptions, invocation: cmd)
                 case .objC: code = ObjcOutput.output(assets: assets, options: options.outputOptions, invocation: cmd)
                 }
 
-                print(code)
+                for (file, contents) in code {
+                    print("// ---------- " + file + " ----------")
+                    print(contents)
+                }
             }
     }
 }
