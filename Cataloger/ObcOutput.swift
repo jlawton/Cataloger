@@ -88,6 +88,7 @@ private func objcTypedef(assetNamespace: AssetNamespace) -> String {
     case .closedEnum(let name): return "typedef NSString * \(name) NS_STRING_ENUM;\n"
     case .extensibleEnum(let name): return "typedef NSString * \(name) NS_EXTENSIBLE_STRING_ENUM;\n"
     case .extensibleEnumExtension: return "";
+    case .classProperties: return "";
     }
 }
 

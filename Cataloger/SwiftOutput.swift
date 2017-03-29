@@ -34,6 +34,7 @@ private func swiftCode(assets: [Asset], options: CodeOutputOptions, invocation: 
     case .closedEnum: output.append(swiftEnum(assets: imageAssets, options: options))
     case .extensibleEnum: output.append(swiftExtensibleEnum(assets: imageAssets, options: options))
     case .extensibleEnumExtension: output.append(swiftExtensibleEnumExtension(assets: imageAssets, options: options))
+    case .classProperties: output.append(swiftClass(assets: assets, options: options))
     }
     output.append("\n")
 
@@ -66,7 +67,7 @@ private func swiftEnum(assets: [Asset], options: CodeOutputOptions) -> String {
 
     if let bundle = options.imageBundle {
         output.append("    #if os(iOS)\n")
-        output.append(swiftUIImageAccessor(bundle: bundle, isPublic: options.isPublic))
+        output.append(swiftAssetProperty(name: "image", path: "self.rawValue", type: .Image, bundle: bundle, isStatic: false, isPublic: options.isPublic))
         output.append("    #endif\n")
         output.append("\n")
     }
@@ -107,7 +108,7 @@ private func swiftExtensibleEnum(assets: [Asset], options: CodeOutputOptions) ->
 
     if let bundle = options.imageBundle {
         output.append("    #if os(iOS)\n")
-        output.append(swiftUIImageAccessor(bundle: bundle, isPublic: options.isPublic))
+        output.append(swiftAssetProperty(name: "image", path: "self.rawValue", type: .Image, bundle: bundle, isStatic: false, isPublic: options.isPublic))
         output.append("    #endif\n")
         output.append("\n")
     }
@@ -142,28 +143,77 @@ private func swiftExtensibleEnumExtension(assets: [Asset], options: CodeOutputOp
     return output
 }
 
-private func swiftUIImageAccessor(bundle: BundleIdentification, isPublic: Bool, returnOptional: Bool = false) -> String {
-    let returnType = returnOptional ? "UIImage?" : "UIImage"
+private func swiftClass(assets: [Asset], options: CodeOutputOptions) -> String {
+    var output = ""
+    let className = CodeGeneration.identifier(options.assetNamespace.name, options: [.initialCap])
+    let public_ = options.isPublic ? "public " : ""
+
+    output.append("\(public_)final class \(className) {\n")
+    output.append("\n")
+
+    let bundle = options.imageBundle ?? .byClass(className, defineClassInOutput: false)
+
+    let groups: [String: [Asset]] = assets.groupBy { $0.group }
+    for group in groups.keys.sorted() {
+        if !group.isEmpty {
+            output.append("    // MARK: - \(group)\n")
+            output.append("\n")
+        }
+        for asset in groups[group]! {
+            let assetName = CodeGeneration.identifier(asset.name, options: [.desnake])
+            let assetPath = CodeGeneration.quoted(asset.path)
+            output.append(swiftAssetProperty(name: assetName, path: assetPath, type: asset.type, bundle: bundle, isStatic: true, isPublic: options.isPublic))
+            output.append("\n")
+        }
+        output.append("\n")
+    }
+
+    output.append("}\n")
+
+    return output
+}
+
+private func swiftAssetProperty(name: String, path: String, type: Asset.AssetType, bundle: BundleIdentification, isStatic: Bool, isPublic: Bool, returnOptional: Bool = false) -> String {
     let (bundleCode, bundleOptional) = bundle.swiftOutput
     let public_ = isPublic ? "public " : ""
+    let static_ = isStatic ? "static " : ""
+
+    let returnType: String
+    let varName: String
+    switch type {
+    case .Image:
+        returnType = returnOptional ? "UIImage?" : "UIImage"
+        varName = "img"
+    case .DataAsset:
+        returnType = returnOptional ? "NSDataAsset?" : "NSDataAsset"
+        varName = "dataAsset"
+    }
+
+    let loadAsset = { (bundle: String) -> String in
+        switch type {
+        case .Image: return "UIImage(named: \(path), in: \(bundle), compatibleWith: nil)"
+        case .DataAsset: return "NSDataAsset(name: \(path), bundle: \(bundle))"
+        }
+    }
 
     var output = ""
-    output.append(    "    \(public_)var image: \(returnType) {\n")
-    output.append(    "        let bundle = \(bundleCode)\n")
+    output.append(    "    \(public_)\(static_)var \(name): \(returnType) {\n")
     if bundleOptional {
-        output.append("        let img = (bundle != nil)\n")
-        output.append("            ? UIImage(named: self.rawValue, in: bundle!, compatibleWith: nil)\n")
+        output.append("        let bundle = \(bundleCode)\n")
+        output.append("        let \(varName) = (bundle != nil)\n")
+        output.append("            ? \(loadAsset("bundle!"))\n")
         output.append("            : nil\n")
     } else {
-        output.append("        let img = UIImage(named: self.rawValue, in: bundle, compatibleWith: nil)\n")
+        output.append("        let \(varName) = \(loadAsset(bundleCode))\n")
     }
     if returnOptional {
-        output.append("        return img\n")
+        output.append("        return \(varName)\n")
     } else {
-        output.append("        assert(img != nil)\n")
-        output.append("        return img!\n")
+        output.append("        assert(\(varName) != nil)\n")
+        output.append("        return \(varName)!\n")
     }
     output.append(    "    }\n")
+
     return output
 }
 

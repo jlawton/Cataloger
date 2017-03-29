@@ -47,6 +47,7 @@ struct CodeOutputOptions: OptionsProtocol {
         case .closedEnum(let name): args.append(contentsOf: ["--type", "enum", "--name", name])
         case .extensibleEnum(let name): args.append(contentsOf: ["--type", "extensible", "--name", name])
         case .extensibleEnumExtension(let name): args.append(contentsOf: ["--type", "extension", "--name", name])
+        case .classProperties(let name): args.append(contentsOf: ["--type", "class", "--name", name])
         }
 
         if let bundle = imageBundle {
@@ -95,12 +96,14 @@ enum AssetNamespace {
     case closedEnum(String)
     case extensibleEnum(String)
     case extensibleEnumExtension(String)
+    case classProperties(String)
 
     var name: String {
         switch self {
         case .closedEnum(let name): return name
         case .extensibleEnum(let name): return name
         case .extensibleEnumExtension(let name): return name
+        case .classProperties(let name): return name
         }
     }
 }
@@ -133,7 +136,7 @@ private extension BundleIdentification {
 private extension AssetNamespace {
     static func evaluate(_ m: CommandMode) -> Result<AssetNamespace, CommandantError<CatalogerError>> {
         return { $0.withName }
-            <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\" or \"extension\". Default: enum")
+            <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\", \"extension\" or \"class\". Default: enum")
             <*> m <| Option(key: "name", defaultValue: "Asset", usage: "The name of the type in code. Default: Asset")
     }
 
@@ -150,6 +153,7 @@ private extension AssetNamespace {
             case "enum": return AwaitingName(AssetNamespace.closedEnum)
             case "extensible": return AwaitingName(AssetNamespace.extensibleEnum)
             case "extension": return AwaitingName(AssetNamespace.extensibleEnumExtension)
+            case "class": return AwaitingName(AssetNamespace.classProperties)
             default: return nil
             }
         }
