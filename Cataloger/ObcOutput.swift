@@ -60,7 +60,7 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: C
         for asset in groups[group]! {
             let assetName = typeName + CodeGeneration.identifier(asset.name, options: [.desnake, .initialCap])
             header.append("extern \(typeName) \(assetName);\n")
-            impl.append("\(typeName) \(assetName) = \(CodeGeneration.quoted(asset.path));\n")
+            impl.append("\(typeName) \(assetName) = @\(CodeGeneration.quoted(asset.path));\n")
         }
     }
 
