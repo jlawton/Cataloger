@@ -127,7 +127,7 @@ private extension BundleIdentification {
 private extension AssetNamespace {
     static func evaluate(_ m: CommandMode) -> Result<AssetNamespace, CommandantError<CatalogerError>> {
         return { $0.withName }
-            <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\", \"extension\" or \"class\". Default: enum")
+            <*> m <| Option(key: "type", defaultValue: AssetNamespace.AwaitingName.from(string: "enum")!, usage: "The type of values to generate. Can be \"enum\", \"extensible\" or \"class\". Default: enum")
             <*> m <| Option(key: "name", defaultValue: "Asset", usage: "The name of the type in code. Default: Asset")
     }
 
@@ -143,7 +143,7 @@ private extension AssetNamespace {
             switch string.lowercased() {
             case "enum": return AwaitingName(AssetNamespace.closedEnum)
             case "extensible": return AwaitingName(AssetNamespace.extensibleEnum)
-            case "extension": return AwaitingName(AssetNamespace.extensibleEnumExtension)
+            //case "extension": return AwaitingName(AssetNamespace.extensibleEnumExtension)
             case "class": return AwaitingName(AssetNamespace.classProperties)
             default: return nil
             }
