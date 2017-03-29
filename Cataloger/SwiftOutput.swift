@@ -21,15 +21,8 @@ private func swiftCode(assets: [Asset], options: CodeOutputOptions, invocation: 
 
     output.append(invocation.swiftHeader)
     output.append("\n")
-    output.append("import Foundation\n")
+    output.append("import UIKit\n")
     output.append("\n")
-
-    if options.imageBundle != nil {
-        output.append("#if os(iOS)\n")
-        output.append("    import UIKit\n")
-        output.append("#endif\n")
-        output.append("\n")
-    }
 
     let imageAssets = assets.filter { $0.type == .Image }
     switch options.assetNamespace {
@@ -68,9 +61,7 @@ private func swiftEnum(assets: [Asset], options: CodeOutputOptions) -> String {
     }
 
     if let bundle = options.imageBundle {
-        output.append("    #if os(iOS)\n")
         output.append(swiftAssetProperty(name: "image", path: "self.rawValue", type: .Image, bundle: bundle, isStatic: false, isPublic: options.isPublic))
-        output.append("    #endif\n")
         output.append("\n")
     }
 
@@ -109,9 +100,7 @@ private func swiftExtensibleEnum(assets: [Asset], options: CodeOutputOptions) ->
     }
 
     if let bundle = options.imageBundle {
-        output.append("    #if os(iOS)\n")
         output.append(swiftAssetProperty(name: "image", path: "self.rawValue", type: .Image, bundle: bundle, isStatic: false, isPublic: options.isPublic))
-        output.append("    #endif\n")
         output.append("\n")
     }
 

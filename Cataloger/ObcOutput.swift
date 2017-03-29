@@ -31,15 +31,8 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: C
 
     header.append(invocation.objcHeader)
     header.append("\n")
-    header.append("@import Foundation;\n")
+    header.append("@import UIKit;\n")
     header.append("\n")
-
-    if options.imageBundle != nil {
-        header.append("#if TARGET_OS_IPHONE\n")
-        header.append("@import UIKit;\n")
-        header.append("#endif\n")
-        header.append("\n")
-    }
 
     let imageAssets = assets.filter { $0.type == .Image }
     let typeName = options.assetNamespace.name
@@ -75,13 +68,9 @@ private func objcCode(assets: [Asset], options: CodeOutputOptions, invocation: C
         }
 
         let accessor = objcUIImageAccessor(typeName: typeName, bundle: bundle)
-        header.append("#if TARGET_OS_IPHONE\n")
         header.append(accessor.0)
-        header.append("#endif\n")
         header.append("\n")
-        impl.append("#if TARGET_OS_IPHONE\n")
         impl.append(accessor.1)
-        impl.append("#endif\n")
         impl.append("\n")
 
         if bundleClass != nil {
