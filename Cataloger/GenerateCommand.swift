@@ -13,7 +13,7 @@ struct GenerateCommand: CommandProtocol {
     let function: String = "Output code constants for an asset catalog"
 
     func run(_ options: GenerateOptions) -> Result<(), CatalogerError> {
-        return Result(())
+        return Result.success(())
             .tryMap { _ in
                 return try Asset.read(from: options.sources)
             }

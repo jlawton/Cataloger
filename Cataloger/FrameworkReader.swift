@@ -48,7 +48,7 @@ struct FrameworkReader: AssetReader {
         }
 
         // Filter out nested bundles and other miscellany
-        let assets: [Asset] = paths.flatMap { (path: String) -> Asset? in
+        let assets: [Asset] = paths.compactMap { (path: String) -> Asset? in
             // Filter out nested bundles
             if path.range(of: ".bundle/") != nil || path.range(of: ".framework/") != nil {
                 return nil
@@ -83,7 +83,7 @@ struct FrameworkReader: AssetReader {
                     name = stripScale(name)
                 }
                 if !type.stripExtension {
-                    name = name + filename.substring(with: r)
+                    name = name + filename[r]
                 }
                 return (name: name, type: type.assetType)
             }

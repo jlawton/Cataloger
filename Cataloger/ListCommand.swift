@@ -13,7 +13,7 @@ struct ListCommand: CommandProtocol {
     let function: String = "Output a list of assets in an asset catalog"
 
     func run(_ options: ListOptions) -> Result<(), CatalogerError> {
-        return Result(())
+        return Result.success(())
             .tryMap { _ in
                 return try Asset.read(from: options.sources)
             }

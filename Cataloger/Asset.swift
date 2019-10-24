@@ -25,8 +25,8 @@ struct Asset {
 // different catalogs, with the same path. This is by design, as when we deal
 // with assets from multiple catalogs, we're interested in path collisions.
 extension Asset: Hashable, Comparable {
-    var hashValue: Int {
-        return path.hashValue
+    func hash(into hasher: inout Hasher) {
+        path.hash(into: &hasher)
     }
 }
 
@@ -49,9 +49,7 @@ extension Asset {
     static func merge(_ a: Set<Asset>, _ b: Set<Asset>) throws -> Set<Asset> {
         let dupes = a.intersection(b)
         if !dupes.isEmpty {
-            let fromA = a.filter { dupes.contains($0) }
-            let fromB = a.filter { dupes.contains($0) }
-            throw MergeError.duplicatePaths((fromA + fromB).sorted())
+            throw MergeError.duplicatePaths(dupes.sorted())
         }
         return a.union(b)
     }

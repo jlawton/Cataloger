@@ -51,7 +51,7 @@ final class XCAssetsReader: AssetReader {
         }
 
         // Strip paths short at the first qualifying name
-        let assetPaths: [String] = paths.flatMap { (path: String) -> String? in
+        let assetPaths: [String] = paths.compactMap { (path: String) -> String? in
             var range: Range<String.Index>? = nil
 
             for t in AssetDataType.allTypes {
@@ -74,7 +74,7 @@ final class XCAssetsReader: AssetReader {
         }
 
         // Convert to assets and strip duplicates
-        return Set(assetPaths.flatMap { (path: String) -> Asset? in
+        return Set(assetPaths.compactMap { (path: String) -> Asset? in
             return asset(path)
         })
     }
